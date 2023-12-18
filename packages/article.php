@@ -9,7 +9,7 @@ include "DataBaseConnect.php";
       $this->connection(); 
 
         $sql = "INSERT INTO `article`(`title`, `contenu`, `date_de_creation`,`person_id`)
-         VALUE ('$title', '$contenu', '$date_create', '$user_id')";
+          VALUE ('$title', '$contenu', '$date_create', '$user_id')";
 
         $stmt = $this->conn->prepare($sql);        
         $query = $stmt->execute();
@@ -22,7 +22,7 @@ include "DataBaseConnect.php";
     {
       $this->connection();
       
-      $sql = "SELECT * FROM article";
+      $sql = "SELECT * FROM article WHERE person_id = 1";
       $stmt = $this->conn->prepare($sql);
       $stmt->execute();
 
@@ -40,6 +40,24 @@ include "DataBaseConnect.php";
     $stmt->execute();
     if(!$stmt){
       echo 'No Result to delete';
+    }
+  }
+
+
+  public function select_update_article($title, $content, $articleId)
+  {
+    $this->connection();
+
+    $sql = "UPDATE article SET title = '$title', contenu = '$content' WHERE article_id = '$articleId'";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+
+    if(!$stmt)
+    {
+      echo "No result to update";
+    }else
+    {
+      header("location: ../pages/homeArticle.php");
     }
   }
 }
